@@ -176,7 +176,7 @@ graph TB
     
     subgraph "EVALUATION PIPELINE"
         K --> L[Compute Metrics]
-        L --> M[Recall@K, NDCG, Diversity]
+        L --> M[RecallK, NDCG, Diversity]
         M --> N{Meets Threshold?}
         N -->|No| H
         N -->|Yes| O[Register Model]
