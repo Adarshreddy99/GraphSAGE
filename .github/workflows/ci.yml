@@ -28,8 +28,9 @@ jobs:
         env:
           # Mocking the DagsHub metrics for CI environment
           MLFLOW_TRACKING_URI: "http://localhost:5000"
+          PYTHONPATH: .
         run: |
-          pytest tests/
+          python -m pytest tests/
           
   build:
     runs-on: ubuntu-latest
