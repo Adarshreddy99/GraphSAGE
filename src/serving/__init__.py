@@ -1,1 +1,1 @@
-# Mark serving as a Python package
+# This file makes 'serving' a Python package.

@@ -5,7 +5,8 @@ import json
 from loguru import logger
 
 # Configuration
-API_URL = "http://localhost:8000/recommend"
+# Inside Docker, 127.0.0.1 is the local container loopback
+API_URL = "http://127.0.0.1:8000/recommend"
 
 def get_recommendations(query, k, mmr_lambda):
     """
@@ -90,9 +91,9 @@ with gr.Blocks(title="Research Paper Recommender") as demo:
     gr.Markdown("Built with **PyTorch Geometric**, **FAISS (HNSW)**, and **FastAPI**.")
 
 if __name__ == "__main__":
-    # Using 127.0.0.1 is more reliable on Windows
+    # Inside Docker, 0.0.0.0 is MANDATORY to be accessible from the host
     demo.launch(
-        server_name="127.0.0.1", 
+        server_name="0.0.0.0", 
         server_port=8080, 
         share=False
     )
