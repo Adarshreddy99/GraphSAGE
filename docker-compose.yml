@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # The GraphSAGE Recommender (AI/UI)
+  app:
+    build: .
+    container_name: graphsage-app
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    volumes:
+      - ./data/processed:/app/data/processed:ro  # Read-only mount for data
+      - ./models:/app/models:ro                  # Read-only mount for weights
+      - ./.env:/app/.env                         # Mounting your credentials
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  # Local MLflow UI (to see your graphs offline)
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.10.2
+    container_name: graphsage-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/app/mlruns
+    command: >
+      mlflow ui --host 0.0.0.0 --port 5000
+    restart: unless-stopped

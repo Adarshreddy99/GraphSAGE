@@ -1,0 +1,47 @@
+stages:
+  ingest:
+    cmd: python src/data_prep/ingest.py
+    deps:
+      - src/data_prep/ingest.py
+      - params.yaml
+    outs:
+      - data/raw/ogbn_arxiv/
+  
+  preprocess:
+    cmd: python src/data_prep/preprocess.py
+    deps:
+      - src/data_prep/preprocess.py
+      - data/raw/ogbn_arxiv/
+      - params.yaml
+    outs:
+      - data/processed/papers_metadata.csv
+      - data/processed/citation_graph.pt
+  
+  encode:
+    cmd: python src/features/encode.py
+    deps:
+      - src/features/encode.py
+      - data/processed/papers_metadata.csv
+      - params.yaml
+    outs:
+      - data/processed/minilm_embeddings.pt
+  
+  negatives:
+    cmd: python src/features/negatives.py
+    deps:
+      - src/features/negatives.py
+      - data/processed/citation_graph.pt
+      - data/processed/minilm_embeddings.pt
+      - params.yaml
+    outs:
+      - data/processed/hard_negatives.pkl
+  
+  train:
+    cmd: python src/model/train.py
+    deps:
+      - src/model/train.py
+      - data/processed/citation_graph.pt
+      - data/processed/hard_negatives.pkl
+      - params.yaml
+    outs:
+      - models/best_model.pt

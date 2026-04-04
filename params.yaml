@@ -1,0 +1,43 @@
+data:
+  dataset: ogbn-arxiv
+  num_papers: 169343
+  num_edges: 1166243
+  raw_titles_file: data/raw/titleabs.tsv.gz
+
+features:
+  model: sentence-transformers/all-MiniLM-L6-v2
+  embedding_dim: 384
+  encoding_batch_size: 64
+  max_length: 256
+
+model:
+  hidden_dim: 256
+  output_dim: 128
+  num_layers: 3
+  neighbor_samples: [10, 5, 5]
+  dropout: 0.3
+  aggregator: mean
+
+training:
+  temperature: 0.07
+  num_hard_negatives: 15
+  num_random_negatives: 5
+  batch_size: 512
+  epochs: 100
+  learning_rate: 0.001
+  early_stopping_patience: 10
+
+evaluation:
+  top_k: [5, 10, 20]
+  ild_threshold: 0.50
+  recall_tolerance: 0.02
+  min_improvement_over_baseline: 0.03
+
+inference:
+  hnsw_m: 16
+  hnsw_ef_construction: 100
+  hnsw_ef_search: 50
+  mmr_lambda: 0.7
+  top_k_candidates: 100
+  default_results: 10
+  pseudo_neighbors: 5

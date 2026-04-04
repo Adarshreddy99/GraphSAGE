@@ -1,0 +1,4 @@
+[core]
+    remote = graphsage_remote
+['remote "graphsage_remote"']
+    url = gdrive://1OZdSf8hOqcpBh0OC0D0Ywo1LB51XSvcn
